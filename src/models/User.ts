@@ -23,4 +23,9 @@ export class User {
     this.events[eventName] = handlers
   }
   
+  trigger(eventName: string): void {
+    const handlers = this.events[eventName]
+    handlers && handlers.map(handler => handler())
+  }
+
 }
