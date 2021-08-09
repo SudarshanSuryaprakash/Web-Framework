@@ -1,8 +1,7 @@
-import {User} from './models/User'
+import { User } from "./models/User";
 
-const user = new User({name: 'Sudo', age: 24})
-user.on('change', () => console.log('change2'))
-user.on('change', () => console.log('change1'))
-user.on('save', () => console.log('save'))
-console.log(user)
-user.trigger('change')
+const user = new User({ id: 1 });
+
+user.set({name: 'Sudarshan', age: 24})
+user.save()
+

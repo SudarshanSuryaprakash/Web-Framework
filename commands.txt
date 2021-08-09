@@ -1,0 +1,2 @@
+parcel index.html to start project in dev
+json-server -w db.json to start json server

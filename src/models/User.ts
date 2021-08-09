@@ -1,6 +1,9 @@
+import axios, {AxiosResponse} from 'axios'
+
 interface UserProps {
   name?: string
   age?: number
+  id?: number
 }
 
 type Callback = () => void 
@@ -25,7 +28,21 @@ export class User {
   
   trigger(eventName: string): void {
     const handlers = this.events[eventName]
-    handlers && handlers.map(handler => handler())
+    handlers && handlers.length && handlers.map(callback => callback())
+  }
+
+  async fetch(): Promise<void> {
+    const response: AxiosResponse = await axios.get(`http://localhost:3000/users/${this.get('id')}`)
+    this.set(await response.data)
+  }
+
+  save(): void {
+    if(this.get('id')) {
+
+      axios.put(`http://localhost:3000/users/${this.get('id')}`, this.data)
+    } else {
+      axios.post(`http://localhost:3000/users`, this.data)
+    }
   }
 
 }
