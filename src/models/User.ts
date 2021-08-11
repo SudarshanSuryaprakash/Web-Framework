@@ -18,4 +18,32 @@ export class User {
   constructor(attrs: UserProps){
     this.attributes = new Attributes<UserProps>(attrs)
   }
+
+  get on() {
+    return this.events.on
+  }
+
+  get trigger() {
+    return this.events.trigger
+  }
+
+  get get() {
+    return this.attributes.get
+  }
+
+  set = (update: UserProps): void => {
+    this.attributes.set(update)
+    this.events.trigger('change')
+  }
+
+  fetch = async (): Promise<void> => {
+    const id = this.get('id')
+    if(typeof id !== 'number') {
+      throw new Error("Need an Id. Cannot fetch")
+    }
+    const response = await this.sync.fetch(id)
+    this.set(response.data)
+      
+  }
+
 }
