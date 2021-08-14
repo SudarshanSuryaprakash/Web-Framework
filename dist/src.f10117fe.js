@@ -2000,11 +2000,15 @@ var Attributes = function () {
   function Attributes(data) {
     var _this = this;
 
-    this.data = data;
-
     this.get = function (key) {
       return _this.data[key];
     };
+
+    this.getAll = function () {
+      return _this.data;
+    };
+
+    this.data = data;
   }
 
   Attributes.prototype.set = function (update) {
@@ -2182,7 +2186,7 @@ var User = function () {
     this.set = function (update) {
       _this.attributes.set(update);
 
-      _this.events.trigger('change');
+      _this.events.trigger("change");
     };
 
     this.fetch = function () {
@@ -2191,9 +2195,9 @@ var User = function () {
         return __generator(this, function (_a) {
           switch (_a.label) {
             case 0:
-              id = this.get('id');
+              id = this.get("id");
 
-              if (typeof id !== 'number') {
+              if (typeof id !== "number") {
                 throw new Error("Need an Id. Cannot fetch");
               }
 
@@ -2204,6 +2208,42 @@ var User = function () {
             case 1:
               response = _a.sent();
               this.set(response.data);
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    };
+
+    this.save = function () {
+      return __awaiter(_this, void 0, Promise, function () {
+        var response, _a;
+
+        return __generator(this, function (_b) {
+          switch (_b.label) {
+            case 0:
+              _b.trys.push([0, 2,, 3]);
+
+              return [4
+              /*yield*/
+              , this.sync.save(this.attributes.getAll())];
+
+            case 1:
+              response = _b.sent();
+              this.trigger('save');
+              return [3
+              /*break*/
+              , 3];
+
+            case 2:
+              _a = _b.sent();
+              this.trigger('error');
+              return [3
+              /*break*/
+              , 3];
+
+            case 3:
               return [2
               /*return*/
               ];
@@ -2250,12 +2290,13 @@ Object.defineProperty(exports, "__esModule", {
 var User_1 = require("./models/User");
 
 var user = new User_1.User({
-  id: 1
+  id: 1,
+  name: "ssp"
 });
-user.on('change', function () {
+user.on('save', function () {
   return console.log(user);
 });
-user.fetch();
+user.save();
 },{"./models/User":"src/models/User.ts"}],"../../../.npm-global/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -2284,7 +2325,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61855" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54302" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

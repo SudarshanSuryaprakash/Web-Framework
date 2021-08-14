@@ -15,35 +15,42 @@ export class User {
   );
   public attributes: Attributes<UserProps>;
 
-  constructor(attrs: UserProps){
-    this.attributes = new Attributes<UserProps>(attrs)
+  constructor(attrs: UserProps) {
+    this.attributes = new Attributes<UserProps>(attrs);
   }
 
   get on() {
-    return this.events.on
+    return this.events.on;
   }
 
   get trigger() {
-    return this.events.trigger
+    return this.events.trigger;
   }
 
   get get() {
-    return this.attributes.get
+    return this.attributes.get;
   }
 
   set = (update: UserProps): void => {
-    this.attributes.set(update)
-    this.events.trigger('change')
-  }
+    this.attributes.set(update);
+    this.events.trigger("change");
+  };
 
   fetch = async (): Promise<void> => {
-    const id = this.get('id')
-    if(typeof id !== 'number') {
-      throw new Error("Need an Id. Cannot fetch")
+    const id = this.get("id");
+    if (typeof id !== "number") {
+      throw new Error("Need an Id. Cannot fetch");
     }
-    const response = await this.sync.fetch(id)
-    this.set(response.data)
-      
-  }
+    const response = await this.sync.fetch(id);
+    this.set(response.data);
+  };
 
+  save = async (): Promise<void> => {
+    try {
+    const response = await this.sync.save(this.attributes.getAll());
+    this.trigger('save')
+    } catch {
+      this.trigger('error')
+    }
+  };
 }
