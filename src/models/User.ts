@@ -1,8 +1,8 @@
-import {ApiSync} from './ApiSync'
-import {Attributes} from './Attributes'
-import {Eventing} from './Eventing'
-import {Model} from './Model'
-
+import { ApiSync } from "./ApiSync";
+import { Attributes } from "./Attributes";
+import { Collection } from "./Collection";
+import { Eventing } from "./Eventing";
+import { Model } from "./Model";
 
 export interface UserProps {
   name?: string;
@@ -10,7 +10,7 @@ export interface UserProps {
   id?: number;
 }
 
-const rootUrl = 'http://localhost:3000/users'
+const rootUrl = "http://localhost:3000/users";
 
 export class User extends Model<UserProps> {
   static buildUser = (attrs: UserProps): User => {
@@ -18,6 +18,12 @@ export class User extends Model<UserProps> {
       new Eventing(),
       new ApiSync<UserProps>(rootUrl),
       new Attributes<UserProps>(attrs)
-    )
-  }
+    );
+  };
+
+  static buildUserCollection = (): Collection<User, UserProps> => {
+    return new Collection<User, UserProps>(rootUrl, (json: UserProps) =>
+      User.buildUser(json)
+    );
+  };
 }
